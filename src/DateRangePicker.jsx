@@ -34,6 +34,7 @@ const DateRangePicker = React.createClass({
     dateStates: React.PropTypes.array, // an array of date ranges and their states
     defaultState: React.PropTypes.string,
     disableNavigation: React.PropTypes.bool,
+    enableNodeDragging: React.PropTypes.bool,
     firstOfWeek: React.PropTypes.oneOf([0, 1, 2, 3, 4, 5, 6]),
     helpMessage: React.PropTypes.string,
     initialDate: React.PropTypes.instanceOf(Date),
@@ -70,6 +71,7 @@ const DateRangePicker = React.createClass({
       numberOfCalendars: 1,
       firstOfWeek: 0,
       disableNavigation: false,
+      enableNodeDragging: true,
       nextLabel: '',
       previousLabel: '',
       initialDate: initialDate,
@@ -313,6 +315,23 @@ const DateRangePicker = React.createClass({
   },
 
   onInteractionStart(date) {
+    if(!this.props.enableNodeDragging) {
+        return;
+    }
+    // if pressed node is start date
+    if (date.isSame(this.props.value.start, 'd')) {
+        this.setState({
+            hideSelection: true,
+            selectedStartDate: this.props.value.end
+        });
+    }
+    // if pressed node is start date
+    if (date.isSame(this.props.value.end, 'd')) {
+        this.setState({
+            hideSelection: true,
+            selectedStartDate: this.props.value.start
+        });
+    }
   },
 
   startRangeSelection(date) {

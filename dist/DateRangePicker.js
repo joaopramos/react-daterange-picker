@@ -79,6 +79,7 @@ var DateRangePicker = _react2.default.createClass({
     dateStates: _react2.default.PropTypes.array, // an array of date ranges and their states
     defaultState: _react2.default.PropTypes.string,
     disableNavigation: _react2.default.PropTypes.bool,
+    enableNodeDragging: _react2.default.PropTypes.bool,
     firstOfWeek: _react2.default.PropTypes.oneOf([0, 1, 2, 3, 4, 5, 6]),
     helpMessage: _react2.default.PropTypes.string,
     initialDate: _react2.default.PropTypes.instanceOf(Date),
@@ -115,6 +116,7 @@ var DateRangePicker = _react2.default.createClass({
       numberOfCalendars: 1,
       firstOfWeek: 0,
       disableNavigation: false,
+      enableNodeDragging: true,
       nextLabel: '',
       previousLabel: '',
       initialDate: initialDate,
@@ -359,7 +361,25 @@ var DateRangePicker = _react2.default.createClass({
       }
     }
   },
-  onInteractionStart: function onInteractionStart(date) {},
+  onInteractionStart: function onInteractionStart(date) {
+    if (!this.props.enableNodeDragging) {
+      return;
+    }
+    // if pressed node is start date
+    if (date.isSame(this.props.value.start, 'd')) {
+      this.setState({
+        hideSelection: true,
+        selectedStartDate: this.props.value.end
+      });
+    }
+    // if pressed node is start date
+    if (date.isSame(this.props.value.end, 'd')) {
+      this.setState({
+        hideSelection: true,
+        selectedStartDate: this.props.value.start
+      });
+    }
+  },
   startRangeSelection: function startRangeSelection(date) {
     this.setState({
       hideSelection: true,
