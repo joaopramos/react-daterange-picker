@@ -70,7 +70,8 @@ var CalendarDate = _react2.default.createClass({
     dateRangesForDate: _react2.default.PropTypes.func,
     onHighlightDate: _react2.default.PropTypes.func,
     onUnHighlightDate: _react2.default.PropTypes.func,
-    onSelectDate: _react2.default.PropTypes.func
+    onSelectDate: _react2.default.PropTypes.func,
+    onInteractionStart: _react2.default.PropTypes.func
   },
 
   getInitialState: function getInitialState() {
@@ -99,6 +100,8 @@ var CalendarDate = _react2.default.createClass({
     document.removeEventListener('mouseup', this.mouseUp);
   },
   mouseDown: function mouseDown() {
+    this.props.onInteractionStart(this.props.date);
+
     this.setState({
       mouseDown: true
     });
@@ -121,6 +124,8 @@ var CalendarDate = _react2.default.createClass({
     document.removeEventListener('touchend', this.touchEnd);
   },
   touchStart: function touchStart(event) {
+    this.props.onInteractionStart(this.props.date);
+
     event.preventDefault();
     this.setState({
       mouseDown: true

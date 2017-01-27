@@ -39,6 +39,7 @@ const CalendarDate = React.createClass({
     onHighlightDate: React.PropTypes.func,
     onUnHighlightDate: React.PropTypes.func,
     onSelectDate: React.PropTypes.func,
+    onInteractionStart: React.PropTypes.func,
   },
 
   getInitialState() {
@@ -70,6 +71,8 @@ const CalendarDate = React.createClass({
   },
 
   mouseDown() {
+    this.props.onInteractionStart(this.props.date);
+
     this.setState({
       mouseDown: true,
     });
@@ -94,6 +97,8 @@ const CalendarDate = React.createClass({
   },
 
   touchStart(event) {
+    this.props.onInteractionStart(this.props.date);
+
     event.preventDefault();
     this.setState({
       mouseDown: true,

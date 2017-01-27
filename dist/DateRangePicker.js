@@ -92,6 +92,7 @@ var DateRangePicker = _react2.default.createClass({
     numberOfCalendars: _react2.default.PropTypes.number,
     onHighlightDate: _react2.default.PropTypes.func, // triggered when a date is highlighted (hovered)
     onHighlightRange: _react2.default.PropTypes.func, // triggered when a range is highlighted (hovered)
+    onInteractionStart: _react2.default.PropTypes.func, // triggered with a mousedown on a date (used for dragging nodes)
     onSelect: _react2.default.PropTypes.func, // triggered when a date or range is selectec
     onSelectStart: _react2.default.PropTypes.func, // triggered when the first date in a range is selected
     paginationArrowComponent: _react2.default.PropTypes.func,
@@ -358,6 +359,7 @@ var DateRangePicker = _react2.default.createClass({
       }
     }
   },
+  onInteractionStart: function onInteractionStart(date) {},
   startRangeSelection: function startRangeSelection(date) {
     this.setState({
       hideSelection: true,
@@ -561,6 +563,7 @@ var DateRangePicker = _react2.default.createClass({
       onSelectDate: this.onSelectDate,
       onHighlightDate: this.onHighlightDate,
       onUnHighlightDate: this.onUnHighlightDate,
+      onInteractionStart: this.onInteractionStart,
       dateRangesForDate: this.dateRangesForDate,
       dateComponent: _CalendarDate2.default,
       locale: this.props.locale
