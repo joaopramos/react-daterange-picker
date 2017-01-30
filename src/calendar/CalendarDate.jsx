@@ -108,6 +108,7 @@ const CalendarDate = React.createClass({
 
   touchStart(event) {
     this.props.onHighlightDate(this.props.date);
+    this.props.onSelectDate(this.props.date);
     this.props.onInteractionStart(this.props.date);
 
     event.preventDefault();
