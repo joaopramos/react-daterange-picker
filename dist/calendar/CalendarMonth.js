@@ -92,6 +92,7 @@ var CalendarMonth = _react2.default.createClass({
         props = _objectWithoutProperties(_props, ['dateComponent', 'value', 'highlightedDate', 'highlightedRange', 'hideSelection', 'enabledRange']);
 
     var d = (0, _moment2.default)(date).locale(this.props.locale);
+    var endd = (0, _moment2.default)(d).endOf('day');
 
     var isInSelectedRange = void 0;
     var isSelectedDate = void 0;
@@ -100,7 +101,7 @@ var CalendarMonth = _react2.default.createClass({
 
     if (!hideSelection && value && _moment2.default.isMoment(value) && value.isSame(d, 'day')) {
       isSelectedDate = true;
-    } else if (!hideSelection && value && (0, _isMomentRange2.default)(value) && value.contains(d)) {
+    } else if (!hideSelection && value && (0, _isMomentRange2.default)(value) && (value.contains(d) || value.contains(endd))) {
       isInSelectedRange = true;
 
       isSelectedRangeStart = value.start.isSame(d, 'day');
