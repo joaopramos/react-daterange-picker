@@ -84,6 +84,7 @@ var DateRangePicker = _react2.default.createClass({
     helpMessage: _react2.default.PropTypes.string,
     initialDate: _react2.default.PropTypes.instanceOf(Date),
     initialFromValue: _react2.default.PropTypes.bool,
+    initialFromEndDate: _react2.default.PropTypes.bool,
     initialMonth: _react2.default.PropTypes.number, // Overrides values derived from initialDate/initialRange
     initialRange: _react2.default.PropTypes.object,
     initialYear: _react2.default.PropTypes.number, // Overrides values derived from initialDate/initialRange
@@ -150,14 +151,19 @@ var DateRangePicker = _react2.default.createClass({
       enabledRange: this.state.enabledRange && this.state.enabledRange.isSame(nextEnabledRange) ? this.state.enabledRange : nextEnabledRange
     };
 
-    if ((0, _hasUpdatedValue2.default)(this.props, nextProps)) {
+    if (nextProps.initialFromEndDate) {
+      var yearMonth = (0, _getYearMonth.getYearMonthProps)(nextProps, true);
+
+      updatedState.year = yearMonth.year;
+      updatedState.month = yearMonth.month;
+    } else if ((0, _hasUpdatedValue2.default)(this.props, nextProps)) {
       var isNewValueVisible = this.isStartOrEndVisible(nextProps);
 
       if (!isNewValueVisible) {
-        var yearMonth = (0, _getYearMonth.getYearMonthProps)(nextProps);
+        var _yearMonth = (0, _getYearMonth.getYearMonthProps)(nextProps);
 
-        updatedState.year = yearMonth.year;
-        updatedState.month = yearMonth.month;
+        updatedState.year = _yearMonth.year;
+        updatedState.month = _yearMonth.month;
       }
     }
 
@@ -365,6 +371,11 @@ var DateRangePicker = _react2.default.createClass({
     if (!this.props.enableNodeDragging) {
       return;
     }
+
+    if (this.state.month !== this.props.value.end.month() || this.state.month !== this.props.value.start.month()) {
+      return;
+    }
+
     // if pressed node is start date
     if (date.isSame(this.props.value.start, 'd')) {
       this.setState({
@@ -372,8 +383,9 @@ var DateRangePicker = _react2.default.createClass({
         selectedStartDate: this.props.value.end
       });
     }
-    // if pressed node is start date
+    // if pressed node is end date
     if (date.isSame(this.props.value.end, 'd')) {
+
       this.setState({
         hideSelection: true,
         selectedStartDate: this.props.value.start

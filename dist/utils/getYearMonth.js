@@ -13,6 +13,7 @@ function getYearMonth(date) {
 }
 
 var getYearMonthProps = exports.getYearMonthProps = function getYearMonthProps(props) {
+  var end = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
   var selectionType = props.selectionType,
       value = props.value;
 
@@ -22,6 +23,10 @@ var getYearMonthProps = exports.getYearMonthProps = function getYearMonthProps(p
 
   if (selectionType === 'single') {
     return getYearMonth(value);
+  }
+
+  if (end) {
+    return getYearMonth(props.value.end);
   }
 
   return getYearMonth(props.value.start);

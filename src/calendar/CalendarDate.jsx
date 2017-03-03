@@ -45,6 +45,7 @@ const CalendarDate = React.createClass({
 
   getInitialState() {
     return {
+      otherMonth: this.props.date.month() !== this.props.firstOfMonth.month(),
       mouseDown: false,
       lastHighlight: null //used for touchend
     };
@@ -107,11 +108,16 @@ const CalendarDate = React.createClass({
   },
 
   touchStart(event) {
+    event.preventDefault();
+
     this.props.onHighlightDate(this.props.date);
     this.props.onSelectDate(this.props.date);
     this.props.onInteractionStart(this.props.date);
 
-    event.preventDefault();
+    if(this.state.otherMonth) {
+      return;
+    }
+
     this.setState({
       mouseDown: true,
     });
@@ -160,6 +166,11 @@ const CalendarDate = React.createClass({
   },
 
   updateLastHighlight(date) {
+
+    if (this.isUnmounted) {
+      return;
+    }
+
     this.setState({
       lastHighlight: date
     });

@@ -39,6 +39,7 @@ const DateRangePicker = React.createClass({
     helpMessage: React.PropTypes.string,
     initialDate: React.PropTypes.instanceOf(Date),
     initialFromValue: React.PropTypes.bool,
+    initialFromEndDate: React.PropTypes.bool,
     initialMonth: React.PropTypes.number, // Overrides values derived from initialDate/initialRange
     initialRange: React.PropTypes.object,
     initialYear: React.PropTypes.number, // Overrides values derived from initialDate/initialRange
@@ -106,7 +107,13 @@ const DateRangePicker = React.createClass({
       enabledRange: this.state.enabledRange && this.state.enabledRange.isSame(nextEnabledRange) ? this.state.enabledRange : nextEnabledRange,
     };
 
-    if (hasUpdatedValue(this.props, nextProps)) {
+    if(nextProps.initialFromEndDate) {
+        const yearMonth = getYearMonthProps(nextProps, true);
+
+        updatedState.year = yearMonth.year;
+        updatedState.month = yearMonth.month;
+
+    } else if (hasUpdatedValue(this.props, nextProps)) {
       const isNewValueVisible = this.isStartOrEndVisible(nextProps);
 
       if (!isNewValueVisible) {
@@ -318,6 +325,12 @@ const DateRangePicker = React.createClass({
     if(!this.props.enableNodeDragging) {
         return;
     }
+
+    if(this.state.month !== this.props.value.end.month() ||
+      this.state.month !== this.props.value.start.month() ) {
+        return;
+    }
+
     // if pressed node is start date
     if (date.isSame(this.props.value.start, 'd')) {
         this.setState({
@@ -325,8 +338,9 @@ const DateRangePicker = React.createClass({
             selectedStartDate: this.props.value.end
         });
     }
-    // if pressed node is start date
+    // if pressed node is end date
     if (date.isSame(this.props.value.end, 'd')) {
+
         this.setState({
             hideSelection: true,
             selectedStartDate: this.props.value.start

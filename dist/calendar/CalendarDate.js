@@ -80,6 +80,7 @@ var CalendarDate = _react2.default.createClass({
 
   getInitialState: function getInitialState() {
     return {
+      otherMonth: this.props.date.month() !== this.props.firstOfMonth.month(),
       mouseDown: false,
       lastHighlight: null //used for touchend
     };
@@ -137,11 +138,16 @@ var CalendarDate = _react2.default.createClass({
     document.removeEventListener('touchmove', this.touchMove);
   },
   touchStart: function touchStart(event) {
+    event.preventDefault();
+
     this.props.onHighlightDate(this.props.date);
     this.props.onSelectDate(this.props.date);
     this.props.onInteractionStart(this.props.date);
 
-    event.preventDefault();
+    if (this.state.otherMonth) {
+      return;
+    }
+
     this.setState({
       mouseDown: true
     });
@@ -183,6 +189,11 @@ var CalendarDate = _react2.default.createClass({
     this.props.onUnHighlightDate(this.props.date);
   },
   updateLastHighlight: function updateLastHighlight(date) {
+
+    if (this.isUnmounted) {
+      return;
+    }
+
     this.setState({
       lastHighlight: date
     });
