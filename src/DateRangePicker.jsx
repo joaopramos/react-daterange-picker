@@ -326,11 +326,6 @@ const DateRangePicker = React.createClass({
         return;
     }
 
-    if(this.state.month !== this.props.value.end.month() ||
-      this.state.month !== this.props.value.start.month() ) {
-        return;
-    }
-
     // if pressed node is start date
     if (date.isSame(this.props.value.start, 'd')) {
         this.setState({
