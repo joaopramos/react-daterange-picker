@@ -19,8 +19,8 @@ import { getYearMonth, getYearMonthProps } from './utils/getYearMonth';
 
 import PureRenderMixin from 'react-addons-pure-render-mixin';
 
-const absoluteMinimum = moment(new Date(-8640000000000000 / 2)).startOf('day');
-const absoluteMaximum = moment(new Date(8640000000000000 / 2)).startOf('day');
+const absoluteMinimum = moment.utc(new Date(-8640000000000000 / 2)).startOf('day');
+const absoluteMaximum = moment.utc(new Date(8640000000000000 / 2)).startOf('day');
 
 function noop() {}
 
@@ -157,8 +157,8 @@ const DateRangePicker = React.createClass({
   },
 
   getEnabledRange(props) {
-    let min = props.minimumDate ? moment(props.minimumDate).startOf('day') : absoluteMinimum;
-    let max = props.maximumDate ? moment(props.maximumDate).startOf('day') : absoluteMaximum;
+    let min = props.minimumDate ? moment.utc(props.minimumDate).startOf('day') : absoluteMinimum;
+    let max = props.maximumDate ? moment.utc(props.maximumDate).startOf('day') : absoluteMaximum;
 
     return moment.range(min, max);
   },
@@ -168,7 +168,7 @@ const DateRangePicker = React.createClass({
     let actualStates = [];
     let minDate = absoluteMinimum;
     let maxDate = absoluteMaximum;
-    let dateCursor = moment(minDate).startOf('day');
+    let dateCursor = moment.utc(minDate).startOf('day');
 
     let defs = Immutable.fromJS(stateDefinitions);
 
@@ -349,7 +349,7 @@ const DateRangePicker = React.createClass({
       selectedStartDate: date,
     });
     if (typeof this.props.onSelectStart === 'function') {
-      this.props.onSelectStart(moment(date));
+      this.props.onSelectStart(moment.utc(date));
     }
   },
 
@@ -399,7 +399,7 @@ const DateRangePicker = React.createClass({
   },
 
   getMonthDate() {
-    return moment(new Date(this.state.year, this.state.month, 1));
+    return moment.utc(new Date(this.state.year, this.state.month, 1));
   },
 
   isStartOrEndVisible(props) {
@@ -457,11 +457,11 @@ const DateRangePicker = React.createClass({
   changeYear(year) {
     let {enabledRange, month} = this.state;
 
-    if (moment({years: year, months: month, date: 1}).unix() < enabledRange.start.unix()) {
+    if (moment.utc({years: year, months: month, date: 1}).unix() < enabledRange.start.unix()) {
       month = enabledRange.start.month();
     }
 
-    if (moment({years: year, months: month + 1, date: 1}).unix() > enabledRange.end.unix()) {
+    if (moment.utc({years: year, months: month + 1, date: 1}).unix() > enabledRange.end.unix()) {
       month = enabledRange.end.month();
     }
 

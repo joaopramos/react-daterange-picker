@@ -91,8 +91,8 @@ var CalendarMonth = _react2.default.createClass({
         enabledRange = _props.enabledRange,
         props = _objectWithoutProperties(_props, ['dateComponent', 'value', 'highlightedDate', 'highlightedRange', 'hideSelection', 'enabledRange']);
 
-    var d = (0, _moment2.default)(date).locale(this.props.locale);
-    var endd = (0, _moment2.default)(d).endOf('day');
+    var d = _moment2.default.utc(date).locale(this.props.locale);
+    var endd = _moment2.default.utc(d).endOf('day');
 
     var isInSelectedRange = void 0;
     var isSelectedDate = void 0;
@@ -110,7 +110,7 @@ var CalendarMonth = _react2.default.createClass({
 
     return _react2.default.createElement(CalendarDate, _extends({
       key: i,
-      isToday: d.isSame((0, _moment2.default)(), 'day'),
+      isToday: d.isSame(_moment2.default.utc(), 'day'),
       isDisabled: !enabledRange.contains(d),
       isHighlightedDate: !!(highlightedDate && highlightedDate.isSame(d, 'day')),
       isHighlightedRangeStart: !!(highlightedRange && highlightedRange.start.isSame(d, 'day')),
@@ -173,7 +173,7 @@ var CalendarMonth = _react2.default.createClass({
     return _react2.default.createElement(
       'option',
       { key: year, value: year },
-      (0, _moment2.default)(year, 'YYYY').locale(this.props.locale).format('YYYY')
+      _moment2.default.utc(year, 'YYYY').locale(this.props.locale).format('YYYY')
     );
   },
   renderHeaderYear: function renderHeaderYear() {
@@ -205,11 +205,11 @@ var CalendarMonth = _react2.default.createClass({
     var disabled = false;
     var year = firstOfMonth.year();
 
-    if ((0, _moment2.default)({ years: year, months: i + 1, date: 1 }).unix() < enabledRange.start.unix()) {
+    if (_moment2.default.utc({ years: year, months: i + 1, date: 1 }).unix() < enabledRange.start.unix()) {
       disabled = true;
     }
 
-    if ((0, _moment2.default)({ years: year, months: i, date: 1 }).unix() > enabledRange.end.unix()) {
+    if (_moment2.default.utc({ years: year, months: i, date: 1 }).unix() > enabledRange.end.unix()) {
       disabled = true;
     }
 

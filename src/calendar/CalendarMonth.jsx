@@ -47,8 +47,8 @@ const CalendarMonth = React.createClass({
 
   renderDay(date, i) {
     let {dateComponent: CalendarDate, value, highlightedDate, highlightedRange, hideSelection, enabledRange, ...props} = this.props;
-    let d = moment(date).locale(this.props.locale);
-    let endd = moment(d).endOf('day');
+    let d = moment.utc(date).locale(this.props.locale);
+    let endd = moment.utc(d).endOf('day');
 
     let isInSelectedRange;
     let isSelectedDate;
@@ -67,7 +67,7 @@ const CalendarMonth = React.createClass({
     return (
       <CalendarDate
         key={i}
-        isToday={d.isSame(moment(), 'day')}
+        isToday={d.isSame(moment.utc(), 'day')}
         isDisabled={!enabledRange.contains(d)}
         isHighlightedDate={!!(highlightedDate && highlightedDate.isSame(d, 'day'))}
         isHighlightedRangeStart={!!(highlightedRange && highlightedRange.start.isSame(d, 'day'))}
@@ -121,7 +121,7 @@ const CalendarMonth = React.createClass({
     }
 
     return (
-      <option key={year} value={year}>{moment(year, 'YYYY').locale(this.props.locale).format('YYYY')}</option>
+      <option key={year} value={year}>{moment.utc(year, 'YYYY').locale(this.props.locale).format('YYYY')}</option>
     );
   },
 
@@ -148,11 +148,11 @@ const CalendarMonth = React.createClass({
     let disabled = false;
     let year = firstOfMonth.year();
 
-    if (moment({years: year, months: i + 1, date: 1}).unix() < enabledRange.start.unix()) {
+    if (moment.utc({years: year, months: i + 1, date: 1}).unix() < enabledRange.start.unix()) {
       disabled = true;
     }
 
-    if (moment({years: year, months: i, date: 1}).unix() > enabledRange.end.unix()) {
+    if (moment.utc({years: year, months: i, date: 1}).unix() > enabledRange.end.unix()) {
       disabled = true;
     }
 

@@ -62,8 +62,8 @@ var _reactAddonsPureRenderMixin2 = _interopRequireDefault(_reactAddonsPureRender
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var absoluteMinimum = (0, _moment2.default)(new Date(-8640000000000000 / 2)).startOf('day');
-var absoluteMaximum = (0, _moment2.default)(new Date(8640000000000000 / 2)).startOf('day');
+var absoluteMinimum = _moment2.default.utc(new Date(-8640000000000000 / 2)).startOf('day');
+var absoluteMaximum = _moment2.default.utc(new Date(8640000000000000 / 2)).startOf('day');
 
 function noop() {}
 
@@ -203,8 +203,8 @@ var DateRangePicker = _react2.default.createClass({
     };
   },
   getEnabledRange: function getEnabledRange(props) {
-    var min = props.minimumDate ? (0, _moment2.default)(props.minimumDate).startOf('day') : absoluteMinimum;
-    var max = props.maximumDate ? (0, _moment2.default)(props.maximumDate).startOf('day') : absoluteMaximum;
+    var min = props.minimumDate ? _moment2.default.utc(props.minimumDate).startOf('day') : absoluteMinimum;
+    var max = props.maximumDate ? _moment2.default.utc(props.maximumDate).startOf('day') : absoluteMaximum;
 
     return _moment2.default.range(min, max);
   },
@@ -216,7 +216,7 @@ var DateRangePicker = _react2.default.createClass({
     var actualStates = [];
     var minDate = absoluteMinimum;
     var maxDate = absoluteMaximum;
-    var dateCursor = (0, _moment2.default)(minDate).startOf('day');
+    var dateCursor = _moment2.default.utc(minDate).startOf('day');
 
     var defs = _immutable2.default.fromJS(stateDefinitions);
 
@@ -394,7 +394,7 @@ var DateRangePicker = _react2.default.createClass({
       selectedStartDate: date
     });
     if (typeof this.props.onSelectStart === 'function') {
-      this.props.onSelectStart((0, _moment2.default)(date));
+      this.props.onSelectStart(_moment2.default.utc(date));
     }
   },
   statesForDate: function statesForDate(date) {
@@ -446,7 +446,7 @@ var DateRangePicker = _react2.default.createClass({
     }
   },
   getMonthDate: function getMonthDate() {
-    return (0, _moment2.default)(new Date(this.state.year, this.state.month, 1));
+    return _moment2.default.utc(new Date(this.state.year, this.state.month, 1));
   },
   isStartOrEndVisible: function isStartOrEndVisible(props) {
     var _this = this;
@@ -506,11 +506,11 @@ var DateRangePicker = _react2.default.createClass({
         month = _state.month;
 
 
-    if ((0, _moment2.default)({ years: year, months: month, date: 1 }).unix() < enabledRange.start.unix()) {
+    if (_moment2.default.utc({ years: year, months: month, date: 1 }).unix() < enabledRange.start.unix()) {
       month = enabledRange.start.month();
     }
 
-    if ((0, _moment2.default)({ years: year, months: month + 1, date: 1 }).unix() > enabledRange.end.unix()) {
+    if (_moment2.default.utc({ years: year, months: month + 1, date: 1 }).unix() > enabledRange.end.unix()) {
       month = enabledRange.end.month();
     }
 
