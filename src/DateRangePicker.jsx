@@ -399,7 +399,7 @@ const DateRangePicker = React.createClass({
   },
 
   getMonthDate() {
-    return moment.utc(new Date(this.state.year, this.state.month, 1));
+    return moment.utc({year: this.state.year, month: this.state.month});
   },
 
   isStartOrEndVisible(props) {

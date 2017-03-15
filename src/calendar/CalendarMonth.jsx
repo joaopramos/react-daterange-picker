@@ -47,7 +47,9 @@ const CalendarMonth = React.createClass({
 
   renderDay(date, i) {
     let {dateComponent: CalendarDate, value, highlightedDate, highlightedRange, hideSelection, enabledRange, ...props} = this.props;
-    let d = moment.utc(date).locale(this.props.locale);
+    let d = moment
+      .utc({year: date.getFullYear(), month: date.getMonth(), date: date.getDate()})
+      .locale(this.props.locale);
     let endd = moment.utc(d).endOf('day');
 
     let isInSelectedRange;
