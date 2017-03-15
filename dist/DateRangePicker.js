@@ -446,7 +446,7 @@ var DateRangePicker = _react2.default.createClass({
     }
   },
   getMonthDate: function getMonthDate() {
-    return _moment2.default.utc(new Date(this.state.year, this.state.month, 1));
+    return _moment2.default.utc({ year: this.state.year, month: this.state.month });
   },
   isStartOrEndVisible: function isStartOrEndVisible(props) {
     var _this = this;

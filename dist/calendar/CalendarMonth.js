@@ -91,7 +91,7 @@ var CalendarMonth = _react2.default.createClass({
         enabledRange = _props.enabledRange,
         props = _objectWithoutProperties(_props, ['dateComponent', 'value', 'highlightedDate', 'highlightedRange', 'hideSelection', 'enabledRange']);
 
-    var d = _moment2.default.utc(date).locale(this.props.locale);
+    var d = _moment2.default.utc({ year: date.getFullYear(), month: date.getMonth(), date: date.getDate() }).locale(this.props.locale);
     var endd = _moment2.default.utc(d).endOf('day');
 
     var isInSelectedRange = void 0;
